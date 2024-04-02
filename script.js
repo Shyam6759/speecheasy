@@ -5,16 +5,11 @@ const saveBtn = document.getElementById('saveBtn');
 const playBtn = document.getElementById('playBtn');
 const statusElement = document.getElementById('status');
 
-
-
-// Replace with your Google Cloud Speech-to-Text API key
 const googleSpeechApiKey = '%%GOOGLE_SPEECH_API_KEY%%';
-
 
 let recognition;
 let transcript = '';
-let synth; // Speech synthesis object
-// Helper function to display status messages
+let synth; 
 function displayStatus(message) {
   statusElement.textContent = message;
 }
@@ -52,40 +47,40 @@ stopBtn.addEventListener('click', () => {
   startBtn.disabled = false;
   stopBtn.disabled = true;
   saveBtn.disabled = false;
-  playBtn.disabled = transcript.length === 0; // Enable play button only if transcript exists
+  playBtn.disabled = transcript.length === 0; 
   recognition.stop();
   displayStatus('');
 });
 
 saveBtn.addEventListener('click', () => {
-  if (transcript.length === 0) { // Check if there's transcript to save
+  if (transcript.length === 0) { 
     alert('No transcript to save!');
     return;
   }
 
-  // Create a Blob object with the transcript text
+ 
   const blob = new Blob([transcript], { type: 'text/plain' });
 
-  // Generate a unique filename
+
   const filename = `transcription_${Date.now()}.txt`;
 
-  // Create a downloadable URL for the blob
+ 
   const url = window.URL.createObjectURL(blob);
 
-  // Create a link element to trigger the download
+ 
   const link = document.createElement('a');
   link.href = url;
   link.download = filename;
 
-  // Simulate a click on the link to initiate download
+ 
   link.click();
 
-  // Revoke the downloadable URL after download
+
   window.URL.revokeObjectURL(url);
   displayStatus('Transcript saved!');
-  setTimeout(() => { displayStatus('') }, 2000); // Reset status after 2 seconds
+  setTimeout(() => { displayStatus('') }, 2000); 
 });
-// ... (Other JavaScript code variables and helper functions)
+
 
 playBtn.addEventListener('click', () => {
   if (transcript.length === 0) {
@@ -104,7 +99,7 @@ playBtn.addEventListener('click', () => {
   function tryPlaying() {
       if (synth.speaking) {
           displayStatus('Speech engine busy. Retrying...');
-          setTimeout(tryPlaying, 1000); // Retry after 1 second
+          setTimeout(tryPlaying, 1000); 
           return;
       }
 
